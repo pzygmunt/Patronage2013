@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChxu_iUwa9gXqzX497i5aCo-2pbL6WJpY&sensor=true">
+    </script>
+    <script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(53.4331, 14.5483),
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+			
+		var marker = new google.maps.Marker({
+		  position: map.getCenter(),
+		  map: map,
+		  title: 'Click to zoom'
+		});
+		
+		 var southWest = new google.maps.LatLng(53.422, 14.478);
+		var northEast = new google.maps.LatLng(53.460, 14.592);
+		var bounds = new google.maps.LatLngBounds(southWest,northEast);
+			map.fitBounds(bounds);
+		var lngSpan = northEast.lng() - southWest.lng();
+		var latSpan = northEast.lat() - southWest.lat();
+		for (var i = 0; i < 5; i++) {
+		var location = new google.maps.LatLng(southWest.lat() + latSpan * Math.random(),
+			southWest.lng() + lngSpan * Math.random());
+		var marker = new google.maps.Marker({
+			position: location,
+			map: map
+		});
+		var j = i + 1;
+		}
+
+
+	}
+
+    var circle = {
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "#FF0000",
+      fillOpacity: 0.35,
+      map: map,
+	  center: location,
+      radius: 4000
+    };
+	
+    google.maps.event.addDomListener(window, 'load', initialize);
+	google.maps.event.addListener(map, 'click', function(event) {
+    placeMarker(event.latLng);
+  });
+
+
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="map-canvas"/>
+  </body>
+</html>
